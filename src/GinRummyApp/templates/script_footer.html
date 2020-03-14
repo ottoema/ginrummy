@@ -1,0 +1,28 @@
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.4.1.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='multi-select/js/jquery.multi-select.js')}}"></script>
+<script>
+$(document).ready(function(){
+        
+        $('#players_in_new_game').multiSelect({
+            keepOrder: true,
+            afterSelect: function(values){
+                var get_val = ""+$("#order_of_players").val();
+                var hidden_val = get_val+","+values;
+                $("#order_of_players").val(hidden_val);
+                //alert ( "HIDDEN value: "+ hidden_val) ;
+            },
+            afterDeselect: function(values){
+                //alert("Deselect value: "+values);           
+                var get_val = $("#order_of_players").val();
+                var new_val = get_val.replace(","+values, "");
+                $("#order_of_players").val(new_val);
+                //alert("HIDDEN value after deselecting: "+new_val);
+            }
+        });
+});
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+});
+</script>

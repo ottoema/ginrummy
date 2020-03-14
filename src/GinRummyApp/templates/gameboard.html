@@ -1,0 +1,86 @@
+<html>
+<head>
+        <title>Games</title>
+        <link href="{{url_for('static', filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename = 'multi-select/css/multi-select.css')}}" media="screen" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+{% block body %}
+<div class="container">
+        <div class="col md-12">
+                        <h2>Game {{game}}</h2>
+                        
+                        {%with messages = get_flashed_messages()%}
+                        {%if messages%}
+                        {% for message in messages %}
+                        <div class="alert alert-success alert-dismissable" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label ="close">
+                                <span aria-hidden="true">&times;</span>          
+                                </button>
+                                {{message}}
+                        </div>
+                        {%endfor%}
+                        {%endif%}
+                        {%endwith%}
+                        </div>
+        <div class="container">
+                <form action="{{ url_for('gameboard') }}" method="POST">
+                <table class="table table-striped">
+                        <tr>
+                                <th></th>
+                                {% for o in order %}
+                                <th>{{o[1]}}
+                                </th>
+                                {% endfor %}
+                        </tr>
+                        {% for s_run in score %}
+                        <tr>
+                                {% for s in s_run %}
+                                <td>{{s}}</td>
+                                {% endfor %}
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                                {% if score %}
+                                        {% set next_run = score | last | first + 1 %}
+                                {% else %}
+                                        {% set next_run = 1 %}
+                                {% endif %}
+                                {% if next_run <= 15 %}
+                                
+                                        <td>
+                                                <a href="#" data-container="body" data-toggle="popover" data-placement="left" data-content="{{targets[next_run][1]}}">{{ next_run }}</a>
+                                        </td>
+                                        
+                                        {% for o in order %}
+                                        <td>
+                                                <input class="form-control form-control-sm" type="text" name="score-r{{next_run}}-p{{o[2]}}" placeholder="{{o[1]}}"/>
+                                        </td>
+                                        {% endfor %}
+                                        {% if next_run == 15 %}
+                                        {% set finished='1'%}
+                                        {% set button_message='Finish game'%}
+                                        {% else %}
+                                        {% set finished='0'%}
+                                        {% set button_message='Submit'%}
+                                        {% endif%}
+                                        <td>
+                                                <input type="hidden" name="game" id="game_id" value="{{game}}"/>
+                                                <input type="hidden" name="run" id="run" value="{{next_run}}"/>
+                                                <input type="hidden" name="finished" id="finished" value="{{finished}}"/>
+                                                <button type="submit" class="btn btn-success pull-right" >{{button_message}}</button>
+                                        </td>
+                                {% endif %}
+                        </tr>
+                </table>
+                </form> 
+        </div>
+        {% include "footer.html" %}
+</div>
+{% endblock %}
+
+</body>
+{% include "script_footer.html" %}
+</html>

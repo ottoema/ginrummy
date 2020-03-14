@@ -1,0 +1,51 @@
+@startuml
+
+class GinRummyGame {
+}
+
+class GameRun {
+    run : Integer
+    completed : Boolean
+    date : Date
+}
+
+class Score {
+    points : Integer
+}
+
+class PlayerPurchases {
+    numberOfPurches : Integer
+}
+
+class Player {
+    name : String
+    wins : Integer
+}
+
+GinRummyGame "1" *-- "15" GameRun
+GinRummyGame o-- "2..." Player
+GameRun "1" *-- "2.." Score
+Score o-- "1" Player
+GameRun "1" *-- "2.." PlayerPurchases
+PlayerPurchases o-- "1" Player
+
+class LowestTotalScore {
+    score : Integer
+    game : GinRummyGame
+    player : Player
+}
+
+class HighestTotalScore {
+    score : Integer
+    game : GinRummyGame
+    player : Player
+}
+
+class HighestGameRunScore {
+    score : Integer
+    gameRun : GameRun
+    game : GinRummyGame
+    player : Player
+}
+
+@enduml
