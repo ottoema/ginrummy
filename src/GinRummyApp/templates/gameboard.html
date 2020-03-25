@@ -51,12 +51,12 @@
                                 {% if next_run <= 15 %}
                                 
                                         <td>
-                                                <a href="#" data-container="body" data-toggle="popover" id="target-pop" data-placement="left" data-content="{{targets[next_run][1]}}">{{ next_run }}</a>
+                                                <a href="#" data-container="body" data-toggle="popover" id="target-pop" data-placement="left" data-content="{{targets[next_run-1][1]}}">{{ next_run }}</a>
                                         </td>
                                         
                                         {% for o in order %}
                                         <td>
-                                                <input class="form-control form-control-sm" type="number" min="0" name="score-r{{next_run}}-p{{o[2]}}" placeholder="{{o[1]}}"/>
+                                                <input class="form-control form-control-sm" type="number" min="0" autocomplete="off" name="score-r{{next_run}}-p{{o[2]}}" placeholder="{{o[1]}}"/>
                                         </td>
                                         {% endfor %}
                                         {% if next_run == 15 %}
@@ -76,6 +76,12 @@
                         </tr>
                 </table>
                 </form> 
+        </div>
+        <div class"container">
+                        <!-- Playlist: {{playlist}}
+                        <br>
+                        <iframe src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe> -->
+
         </div>
         {% include "footer.html" %}
 </div>

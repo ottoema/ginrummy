@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQL
+import json
+import requests
 import yaml
 from pprint import pprint
 
@@ -69,8 +71,14 @@ def gameboard():
     game_score = cur.fetchall()
     cur.execute("CALL get_all_targets()")
     game_targets = cur.fetchall()
+
+    #spotify_response = requests.get("""https://api.spotify.com/v1/playlists/3KkoEfF0SG2prx6npYS7uI?fields=fields%3Dhref%2Cname%2Cowner(!href%2Cexternal_urls)%2Ctracks.items(added_by.id%2Ctrack(name%2Chref%2Calbum(name%2Chref)))" -H "Accept: application/json" -H "Content-Type: application/json" -H "Authorization: Bearer BQALCip01vUfdnRNtAQAgiu84tWINDNOvLDLmX7AmJ1DpOyGnEtJaofZQAXWE36Lu5BM3N2jU6spXUzLf_IOHbCyrkDS8MjejlmwuDACSNpq1zgc""")
+    #json_data = json.loads(spotify_response.text)
+    #print (json_data)
+    #pname = json_data["name"]
+    pname = ""
     cur.close()
-    return render_template('gameboard.html',game=game_id,order=player_order,score=game_score,targets=game_targets)
+    return render_template('gameboard.html',game=game_id,order=player_order,score=game_score,targets=game_targets, playlist=pname)
 
 @app.route('/players')
 def players():
